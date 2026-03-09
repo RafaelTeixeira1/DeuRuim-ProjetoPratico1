@@ -12,9 +12,20 @@ class ChamadosController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $chamados = Chamados::with(['tecnico', 'categoria'])->get();
+        $query = Chamados::with(['tecnico', 'categoria']);
+
+        if ($request->filled('prioridade')) {
+            $query->where('prioridade', $request->prioridade);
+        }
+
+        if ($request->filled('status')) {
+            $query->where('status', $request->status);
+        }
+
+        $chamados = $query->get();
+
         return view('chamados.index', compact('chamados'));
     }
 

@@ -6,6 +6,32 @@
 
 <a href="{{ route('chamados.create') }}">Novo Chamado</a>
 
+<br><br>
+
+<form method="GET" action="{{ route('chamados.index') }}">
+    <label>Prioridade</label>
+    <select name="prioridade">
+        <option value="">Todas</option>
+        <option value="baixa" {{ request('prioridade') == 'baixa' ? 'selected' : '' }}>Baixa</option>
+        <option value="media" {{ request('prioridade') == 'media' ? 'selected' : '' }}>Média</option>
+        <option value="alta" {{ request('prioridade') == 'alta' ? 'selected' : '' }}>Alta</option>
+    </select>
+
+    <label>Status</label>
+    <select name="status">
+        <option value="">Todos</option>
+        <option value="aberto" {{ request('status') == 'aberto' ? 'selected' : '' }}>Aberto</option>
+        <option value="em_atendimento" {{ request('status') == 'em_atendimento' ? 'selected' : '' }}>Em Atendimento</option>
+        <option value="resolvido" {{ request('status') == 'resolvido' ? 'selected' : '' }}>Resolvido</option>
+        <option value="fechado" {{ request('status') == 'fechado' ? 'selected' : '' }}>Fechado</option>
+    </select>
+
+    <button type="submit">Filtrar</button>
+    <a href="{{ route('chamados.index') }}">Limpar</a>
+</form>
+
+<br>
+
 <table border="1">
 <tr>
     <th>ID</th>
