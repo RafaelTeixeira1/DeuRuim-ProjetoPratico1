@@ -12,7 +12,8 @@ class TecnicosController extends Controller
      */
     public function index()
     {
-        //
+        $tecnicos = Tecnicos::all();
+        return view('tecnicos.index', compact('tecnicos'));
     }
 
     /**
@@ -20,7 +21,7 @@ class TecnicosController extends Controller
      */
     public function create()
     {
-        //
+        return view('tecnicos.create');
     }
 
     /**
@@ -28,31 +29,43 @@ class TecnicosController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $dados = $request->validate([
+            'nome' => ['required','string','max:255'],
+            'email' => ['required','email','unique:tecnicos,email'],
+            'especialidade' => ['required','string','max:255'],
+        ]);
+        Tecnicos::create($dados);
+        return redirect()->route('tecnicos.index')->with('success', 'Técnico criado com sucesso!');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Tecnicos $tecnicos)
+    public function show(Tecnicos $tecnico)
     {
-        //
+        return view('tecnicos.show', compact('tecnico'));
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Tecnicos $tecnicos)
+    public function edit(Tecnicos $tecnico)
     {
-        //
+        return view('tecnicos.edit', compact('tecnico'));
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Tecnicos $tecnicos)
+    public function update(Request $request, Tecnicos $tecnico)
     {
-        //
+        $dados = $request->validate([
+            'nome' => ['required','string','max:255'],
+            'email' => ['required','email','unique:tecnicos,email,' . $tecnico->id],
+            'especialidade' => ['required','string','max:255'],
+        ]);
+        $tecnico->update($dados);
+        return redirect()->route('tecnicos.index')->with('success', 'Técnico atualizado com sucesso!');
     }
 
     /**
@@ -60,6 +73,7 @@ class TecnicosController extends Controller
      */
     public function destroy(Tecnicos $tecnicos)
     {
-        //
+        $tecnicos->delete();
+        return redirect()->route('tecnicos.index')->with('success', 'Técnico excluído com sucesso!');
     }
 }
