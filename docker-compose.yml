@@ -46,11 +46,13 @@ services:
   
   node:
     image: node:20
-    container_name: deuruim_node
+    container_name: tarefas_node
     working_dir: /var/www/html
     volumes:
       - ./src:/var/www/html
-    profiles: ["tools"]
+    ports:
+      - "5173:5173"
+    command: sh -c "npm install && npm run dev"
   
 volumes:
   dbdata:
