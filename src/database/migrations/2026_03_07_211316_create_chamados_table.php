@@ -17,7 +17,7 @@ return new class extends Migration
             $table->text('descricao');
             $table->enum('prioridade', ['baixa', 'media', 'alta']);
             $table->enum('status', ['aberto', 'em_atendimento', 'resolvido', 'fechado']);
-            $table->date('data_abertura');
+            $table->dateTime('data_abertura');
             $table->timestamps();
         });
     }
