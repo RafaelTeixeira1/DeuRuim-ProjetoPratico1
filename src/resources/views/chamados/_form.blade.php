@@ -24,15 +24,16 @@
 <br>
 
 <label>Data de abertura</label>
-<input type="date" name="data_abertura" value="{{ old('data_abertura', $chamado->data_abertura ?? '') }}">
+<input type="datetime-local" name="data_abertura"
+    value="{{ old('data_abertura', isset($chamado) ? \Carbon\Carbon::parse($chamado->data_abertura)->format('Y-m-d\TH:i') : '') }}">
 <br>
 
 <label>Técnico</label>
 <select name="tecnico_id">
     @foreach($tecnicos as $tecnico)
-        <option value="{{ $tecnico->id }}">
-            {{ $tecnico->nome }}
-        </option>
+    <option value="{{ $tecnico->id }}">
+        {{ $tecnico->nome }}
+    </option>
     @endforeach
 </select>
 <br>
@@ -40,9 +41,9 @@
 <label>Categoria</label>
 <select name="categoria_id">
     @foreach($categorias as $categoria)
-        <option value="{{ $categoria->id }}">
-            {{ $categoria->nome }}
-        </option>
+    <option value="{{ $categoria->id }}">
+        {{ $categoria->nome }}
+    </option>
     @endforeach
 </select>
 <br>
