@@ -68,7 +68,7 @@
         type="datetime-local"
         id="data_abertura"
         name="data_abertura"
-        value="{{ old('data_abertura', isset($chamado) ? \Carbon\Carbon::parse($chamado->data_abertura)->format('Y-m-d\TH:i') : '') }}"
+        value="{{ old('data_abertura', isset($chamado) ? $chamado->data_abertura->format('Y-m-d\TH:i') : '') }}"
         class="w-full rounded-lg border border-gray-300 px-4 py-2.5 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
     >
     @error('data_abertura')

@@ -24,6 +24,18 @@ class ChamadosController extends Controller
             $query->where('status', $request->status);
         }
 
+        $query->orderByRaw("
+            CASE
+                WHEN prioridade = 'alta' THEN 1
+                WHEN prioridade = 'media' THEN 2
+                WHEN prioridade = 'baixa' THEN 3
+                ELSE 4
+            END
+        ");
+
+        $query->orderBy('data_abertura', 'asc');
+        $query->orderBy('id', 'asc');
+
         $chamados = $query->get();
 
         return view('chamados.index', compact('chamados'));
@@ -39,6 +51,7 @@ class ChamadosController extends Controller
 
         return view('chamados.create', compact('tecnicos', 'categorias'));
     }
+
     /**
      * Store a newly created resource in storage.
      */
@@ -75,6 +88,7 @@ class ChamadosController extends Controller
     {
         $tecnicos = Tecnicos::all();
         $categorias = Categorias::all();
+
         return view('chamados.edit', compact('chamado', 'tecnicos', 'categorias'));
     }
 
@@ -105,6 +119,8 @@ class ChamadosController extends Controller
     public function destroy(Chamados $chamado)
     {
         $chamado->delete();
-        return redirect()->route('chamados.index')->with('success', 'Chamado excluído com sucesso!');
+
+        return redirect()->route('chamados.index')
+            ->with('success', 'Chamado excluído com sucesso!');
     }
 }

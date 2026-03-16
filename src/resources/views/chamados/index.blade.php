@@ -68,7 +68,7 @@
                 @forelse($chamados as $chamado)
                     @php
                         $slaHoras = $chamado->categoria->sla_horas ?? 0;
-                        $prazo = \Carbon\Carbon::parse($chamado->data_abertura)->addHours($slaHoras);
+                        $prazo = $chamado->data_abertura->copy()->addHours($slaHoras);
                         $minutosRestantes = now()->diffInMinutes($prazo, false);
 
                         $tempoEncerrado = in_array($chamado->status, ['resolvido', 'fechado']);

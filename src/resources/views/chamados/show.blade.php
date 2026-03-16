@@ -40,7 +40,7 @@
         <div>
             <span class="block text-sm font-medium text-gray-500">Data de abertura</span>
             <p class="text-lg text-gray-800">
-                {{ \Carbon\Carbon::parse($chamado->data_abertura)->format('d/m/Y H:i') }}
+                {{ $chamado->data_abertura->format('d/m/Y H:i') }}
             </p>
         </div>
 
