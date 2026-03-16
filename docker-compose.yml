@@ -46,7 +46,7 @@ services:
   
   node:
     image: node:20
-    container_name: tarefas_node
+    container_name: deuruim_node
     working_dir: /var/www/html
     volumes:
       - ./src:/var/www/html
