@@ -11,20 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tecnicos', function (Blueprint $table) {
-            $table->id();
-            $table->string('nome');
-            $table->string('email');
-            $table->string('especialidade');
-            $table->timestamps();
+        Schema::table('chamados', function (Blueprint $table) {
+            $table->dateTime('data_abertura')->change();
         });
     }
 
     /**
      * Reverse the migrations.
      */
-    public function down(): void
+   public function down(): void
     {
-        Schema::dropIfExists('tecnicos');
+        Schema::table('chamados', function (Blueprint $table) {
+            $table->date('data_abertura')->change();
+        });
     }
 };
