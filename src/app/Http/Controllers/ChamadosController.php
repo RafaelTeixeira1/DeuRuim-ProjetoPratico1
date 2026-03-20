@@ -24,7 +24,10 @@ class ChamadosController extends Controller
             $query->where('status', $request->status);
         }
 
-        $chamados = $query->get();
+        $chamados = $query
+            ->orderByRaw("CASE prioridade WHEN 'alta' THEN 0 WHEN 'media' THEN 1 ELSE 2 END")
+            ->orderBy('data_abertura', 'asc')
+            ->get();
 
         return view('chamados.index', compact('chamados'));
     }
@@ -53,6 +56,12 @@ class ChamadosController extends Controller
             'tecnico_id' => ['required', 'exists:tecnicos,id'],
             'categoria_id' => ['required', 'exists:categorias,id'],
         ]);
+
+        if ($dados['status'] === 'fechado') {
+            return back()
+                ->withErrors(['status' => 'Um chamado so pode ser fechado apos estar resolvido.'])
+                ->withInput();
+        }
 
         Chamados::create($dados);
 
@@ -92,6 +101,12 @@ class ChamadosController extends Controller
             'tecnico_id' => ['required', 'exists:tecnicos,id'],
             'categoria_id' => ['required', 'exists:categorias,id'],
         ]);
+
+        if ($dados['status'] === 'fechado' && $chamado->status !== 'resolvido') {
+            return back()
+                ->withErrors(['status' => 'Um chamado so pode ser fechado quando estiver resolvido.'])
+                ->withInput();
+        }
 
         $chamado->update($dados);
 
